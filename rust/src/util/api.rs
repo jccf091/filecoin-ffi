@@ -3,7 +3,7 @@ use std::fs::File;
 use std::os::unix::io::FromRawFd;
 use std::sync::Once;
 
-use bellperson::GPU_NVIDIA_DEVICES;
+use bellperson::GPU_DEVICES;
 use ffi_toolkit::{catch_panic_response, raw_ptr, rust_str_to_c_str, FCPResponseStatus};
 
 use super::types::{fil_GpuDeviceResponse, fil_InitLogFdResponse};
@@ -35,11 +35,11 @@ pub fn init_log_with_file(file: File) -> Option<()> {
 #[no_mangle]
 pub unsafe extern "C" fn fil_get_gpu_devices() -> *mut fil_GpuDeviceResponse {
     catch_panic_response(|| {
-        let n = GPU_NVIDIA_DEVICES.len();
+        let n = GPU_DEVICES.len();
 
-        let devices: Vec<*const libc::c_char> = GPU_NVIDIA_DEVICES
+        let devices: Vec<*const libc::c_char> = GPU_DEVICES
             .iter()
-            .map(|d| d.name().unwrap_or_else(|_| "Unknown".to_string()))
+            .map(|d| d.name())
             .map(|d| {
                 CString::new(d)
                     .unwrap_or_else(|_| CString::new("Unknown").unwrap())

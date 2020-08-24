@@ -26,7 +26,8 @@ rand = "0.7"
 rand_chacha = "0.2.1"
 rayon = "1.2.1"
 anyhow = "1.0.23"
-bellperson = { version = "0.9.2", features = ["gpu"] }
+bellperson = { git = "https://github.com/jccf091/bellman", features = ["gpu"] }
+rust-gpu-tools = { version = "0.1.0" }
 serde_json = "1.0.46"
 
 neptune = "=1.1.1"
